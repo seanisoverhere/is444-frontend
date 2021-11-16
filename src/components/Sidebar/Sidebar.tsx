@@ -7,7 +7,7 @@ import { FaRegMoneyBillAlt } from "react-icons/fa";
 
 const Sidebar: React.FC<{}> = () => {
   return (
-    <div className="min-h-screen flex flex-row bg-gray-100">
+    <div className="min-h-screen flex flex-row">
       <div className="flex flex-col w-56 bg-white rounded-r-3xl overflow-hidden">
         <div className="flex justify-start pt-6 items-center">
           <div className="inline-flex items-center mx-8">
@@ -65,7 +65,7 @@ const Sidebar: React.FC<{}> = () => {
               <span className="inline-flex items-center justify-center pl-8 pr-2">
                 <FaRegMoneyBillAlt size={24} className="text-indigo-500" />
               </span>
-              <span className="text-sm font-medium">Invest</span>
+              <span className="text-sm font-medium">Installment</span>
             </Link>
           </li>
         </ul>
