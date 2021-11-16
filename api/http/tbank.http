@@ -1,0 +1,6 @@
+# Get customer account
+GET http://tbankonline.com/SMUtBank_API/Gateway?Header={"serviceName": "getCustomerDetails", "userID":"amazinglance", "PIN": "061296", "OTP": "966260"}
+
+###
+# Request OTP
+GET http://tbankonline.com/SMUtBank_API/Gateway?Header={"serviceName": "requestOTP", "userID":"amazinglance", "PIN": "061296"}
