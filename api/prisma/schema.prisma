@@ -12,4 +12,5 @@ model User {
     username String @unique
     name String?
     pHash String
+    tBankID String
 }
