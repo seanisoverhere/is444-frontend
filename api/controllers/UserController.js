@@ -6,11 +6,11 @@ const tBankURL = process.env.TBANK_URL
 const tBankHeaders = require('../services/TBankHeaderService');
 
 class UserController {
-    static async login(userID, pin, otp, callback = (status, payload) => { }) {
+    static async login(userID, pin, otp, callback = (status, payload) => {}) {
         try {
             if (!userID || !pin) {
                 callback(400, {
-                    message: 'UserID and PIN are required'
+                    "message": 'UserID and PIN are required'
                 });
             } else if (!otp) {
                 const { header } = tBankHeaders.requestOTP(userID, pin);
@@ -23,11 +23,11 @@ class UserController {
                         
                         if (globalErrorID === "010000") {
                             callback(418, {
-                                message: 'OTP is required'
+                                "message": 'OTP is required'
                             });
                         } else if (globalErrorID === "010010") {
                             callback(401, {
-                                message: 'Invalid Login Details'
+                                "message": 'Invalid Login Details'
                             });
                         }
                     });
@@ -42,21 +42,44 @@ class UserController {
                         const globalErrorID = data.Content.ServiceResponse.ServiceRespHeader.GlobalErrorID;
                         
                         if (globalErrorID === "010000") {
+                            const customerID = data.Content.ServiceResponse["Login_OTP_Authenticate-Response"]["CustomerID"]
+                            this.initialLogin(customerID, userID, pin, OTP);
                             callback(200, {
-                                message: 'Login Successful'
+                                "message": 'Login Successful'
                             });
                         } else if (globalErrorID === "010010") {
                             callback(401, {
-                                message: 'Invalid OTP'
+                                "message": 'Invalid OTP'
                             });
                         }
                     });
-
             }
         } catch (error) {
             callback(500, {
-                message: 'Internal server error'
+                "message": 'Internal server error'
             });
+        }
+    }
+    
+    static initialLogin(customerID, userID, pin, OTP) {
+        const portfolioController = require('./PortfolioController');
+        const user = this.registerUser(userID);
+        
+        
+        
+    }
+    
+    
+    static async registerUser(userID) {
+        try {
+            const user = await prisma.user.upsert({
+                data: {
+                    userID: userID
+                }
+            });
+            return user;
+        } catch (error) {
+            throw error;
         }
     }
 
