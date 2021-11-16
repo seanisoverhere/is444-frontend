@@ -4,7 +4,13 @@ const router = express.Router();
 const UserController = require('../controllers/UserController');
 
 router.post('/login', (req, res, next) => {
-    UserController.login(req, (status, payload) => {
+    const {
+        userID,
+        pin,
+        otp
+    } = req.body;
+    
+    UserController.login(userID, pin, otp, (status, payload) => {
         res.status(status).json(payload);
     })
 });
