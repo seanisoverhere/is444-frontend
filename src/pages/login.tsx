@@ -1,7 +1,18 @@
-import React from "react";
+import React, { useState } from "react";
+import OTP from "../components/OTP/OTP";
 import { Link } from "react-router-dom";
 
 const Login: React.FC<{}> = () => {
+  const [showOTP, setShowOTP] = useState(false);
+
+  const signIn = () => {
+    setShowOTP(!showOTP);
+
+    // if show OTP == true && OTP == correct
+      // Log in (dispatch action to store auth details and redirect to login page)
+
+  };
+
   return (
     <div className="bg-white h-screen">
       <div className="w-full flex flex-wrap">
@@ -13,21 +24,21 @@ const Login: React.FC<{}> = () => {
           </div>
 
           <div className="flex flex-col justify-center md:justify-start my-auto pt-8 md:pt-0 px-8 md:px-24 lg:px-32">
-          <svg
-            className="w-12 text-indigo-500 mx-auto"
-            viewBox="0 0 24 24"
-            strokeLinejoin="round"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeMiterlimit="10"
-            stroke="currentColor"
-            fill="none"
-          >
-            <rect x="3" y="1" width="7" height="12" />
-            <rect x="3" y="17" width="7" height="6" />
-            <rect x="14" y="1" width="7" height="6" />
-            <rect x="14" y="11" width="7" height="12" />
-          </svg>
+            <svg
+              className="w-12 text-indigo-500 mx-auto"
+              viewBox="0 0 24 24"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeMiterlimit="10"
+              stroke="currentColor"
+              fill="none"
+            >
+              <rect x="3" y="1" width="7" height="12" />
+              <rect x="3" y="17" width="7" height="6" />
+              <rect x="14" y="1" width="7" height="6" />
+              <rect x="14" y="11" width="7" height="12" />
+            </svg>
             <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
               Sign in to your account
             </h2>
@@ -55,10 +66,28 @@ const Login: React.FC<{}> = () => {
                   className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mt-1 leading-tight focus:outline-none focus:shadow-outline"
                 />
               </div>
+              {showOTP ? (
+                <div className="mt-6">
+                  <h1 className="mt-6 mb-4 text-xl font-semibold text-gray-700">
+                    Verification Code
+                  </h1>
+                  <h3 className="my-4 text-md text-gray-400">
+                    We have sent you an OTP to verify your account
+                  </h3>
+                  <OTP
+                    autoFocus
+                    length={6}
+                    className="flex justify-between items-center"
+                    inputClassName="w-14 h-14 text-4xl text-center"
+                    onChangeOTP={(otp) => console.log("String OTP: ", otp)}
+                  />
+                </div>
+              ) : null}
 
               <Link
-                to="/"
+                to="#"
                 className="group mt-8 relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                onClick={signIn}
               >
                 <span className="absolute left-0 inset-y-0 flex items-center pl-3">
                   <svg
@@ -69,9 +98,9 @@ const Login: React.FC<{}> = () => {
                     aria-hidden="true"
                   >
                     <path
-                      fill-rule="evenodd"
+                      fillRule="evenodd"
                       d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
-                      clip-rule="evenodd"
+                      clipRule="evenodd"
                     />
                   </svg>
                 </span>
