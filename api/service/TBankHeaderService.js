@@ -1,20 +1,19 @@
 class TBankHeaderService {
     static requestOTP(userID, pin) {
         return {
-            "Header": {
-                "userID": userID,
-                "PIN": pin
-            }
+            "serviceName": "requestOTP",
+            "userID": userID,
+            "PIN": pin
         }
     }
+
     
     static getCustomerAccounts(userID, pin, otp) {
         return {
-            "Header": {
-                "userID": userID,
-                "PIN": pin,
-                "OTP": otp
-            }
+            "serviceName": "getCustomerAccounts",
+            "userID": userID,
+            "PIN": pin,
+            "OTP": otp
         }
     }
 }
