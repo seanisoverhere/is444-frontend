@@ -9,8 +9,13 @@ generator client {
 
 model User {
     id Int @id @default(autoincrement())
-    username String @unique
-    name String?
-    pHash String
-    tBankID String
+    userID String @unique
+    accounts Account[]
+}
+
+model Account {
+    id Int @id @default(autoincrement())
+    accountID String @unique
+    owner User @relation(fields: [ownerId], references: [userID])
+    ownerId String
 }

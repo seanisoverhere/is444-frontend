@@ -25,7 +25,7 @@ class UserController {
                             callback(418, {
                                 "message": 'OTP is required'
                             });
-                        } else if (globalErrorID === "010010") {
+                        } else {
                             callback(401, {
                                 "message": 'Invalid Login Details'
                             });
@@ -51,6 +51,10 @@ class UserController {
                             callback(401, {
                                 "message": 'Invalid OTP'
                             });
+                        } else {
+                            callback(401, {
+                                "message": 'Invalid Login Details'
+                            });
                         }
                     });
             }
@@ -64,9 +68,11 @@ class UserController {
     static initialLogin(customerID, userID, pin, OTP) {
         const portfolioController = require('./PortfolioController');
         const user = this.registerUser(userID);
-        
-        
-        
+        const interestedAccounts = portfolioController.getCustomerAccounts(userID, pin, OTP);
+        const interestedTransactions = []
+        for (const accountID of interestedAccounts) {
+            interestedTransactions.concat( portfolioController.getTransactionHistory(userID, pin, OTP, accountID) );
+        }
     }
     
     
