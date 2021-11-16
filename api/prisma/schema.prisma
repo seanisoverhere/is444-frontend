@@ -1,6 +1,6 @@
 datasource db {
     provider = "sqlite"
-    url      = "file:../db/users.db"
+    url      = "file:../db/deezrupt.db"
 }
 
 generator client {
