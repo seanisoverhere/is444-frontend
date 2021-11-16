@@ -95,6 +95,7 @@ class TBankHeaderService {
         return { header, content };
     }
 
+    
     static getTransactionHistory(userID, pin, otp, accountID) {
         const today = new Date();
         const monthAgo = new Date(today.getFullYear(), today.getMonth() - 1, today.getDate());
@@ -119,6 +120,18 @@ class TBankHeaderService {
         
         return { header, content };
     }
+    
+    static getBenchmarkInterestRates() {
+        const header = {
+            "serviceName": "getBenchmarkInterestRates",
+            "userID": "",
+            "PIN": "",
+            "OTP": ""
+        };
+        
+        return { header };
+    }
+    
 
 }
 
