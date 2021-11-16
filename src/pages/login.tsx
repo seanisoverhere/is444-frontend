@@ -1,33 +1,15 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import Logo from "../assets/logo.png";
 
 const Login: React.FC<{}> = () => {
   return (
     <div className="bg-white h-screen">
       <div className="w-full flex flex-wrap">
         <div className="w-full md:w-1/2 flex flex-col">
-          <div className="flex justify-center md:justify-start pt-12 md:pl-12 md:-mb-24">
-            <div className="bg-black text-white font-bold text-xl p-4">
-              DEEZ RUPT
-            </div>
-          </div>
 
           <div className="flex flex-col justify-center md:justify-start my-auto pt-8 md:pt-0 px-8 md:px-24 lg:px-32">
-          <svg
-            className="w-12 text-indigo-500 mx-auto"
-            viewBox="0 0 24 24"
-            strokeLinejoin="round"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeMiterlimit="10"
-            stroke="currentColor"
-            fill="none"
-          >
-            <rect x="3" y="1" width="7" height="12" />
-            <rect x="3" y="17" width="7" height="6" />
-            <rect x="14" y="1" width="7" height="6" />
-            <rect x="14" y="11" width="7" height="12" />
-          </svg>
+          <img src={Logo} className="mx-auto w-40" alt="Deez Logo" />
             <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
               Sign in to your account
             </h2>
