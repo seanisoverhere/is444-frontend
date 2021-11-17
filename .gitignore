@@ -11,6 +11,12 @@ node_modules/
 # production
 /build
 
+# Database
+db/
+
+# Prisma Migration
+*/prisma/migrations/
+
 # misc
 .DS_Store
 .env.local
