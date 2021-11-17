@@ -98,9 +98,10 @@ class TBankHeaderService {
     
     static getTransactionHistory(userID, pin, otp, accountID) {
         const today = new Date();
+        const startDate = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 2);
         const monthAgo = new Date(today.getFullYear(), today.getMonth() - 1, today.getDate());
         
-        const todayISO = today.toISOString().split('T')[0] + ' 00:00:00';
+        const startDateISO = startDate.toISOString().split('T')[0] + ' 00:00:00';
         const monthAgoISO = monthAgo.toISOString().split('T')[0] + ' 00:00:00';
         
         const header = {
@@ -111,11 +112,13 @@ class TBankHeaderService {
         };
         
         const content = {
-            "accountID": accountID,
-            "startDate": todayISO,
-            "endDate": monthAgoISO,
-            "numRecordsPerpage": 1000,
-            "pageNum": 1
+            "Content": {   
+                "accountID": accountID,
+                "startDate": monthAgoISO,
+                "endDate": startDateISO,
+                "numRecordsPerPage": "1000",
+                "pageNum": "1"
+            }
         };
         
         return { header, content };
