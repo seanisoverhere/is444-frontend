@@ -17,8 +17,8 @@ model User {
 model Account {
     id Int @id @default(autoincrement())
     accountID String @unique
-    owner User @relation(fields: [ownerId], references: [userID])
-    ownerId String
+    owner User @relation(fields: [ownerID], references: [userID])
+    ownerID String
     transactions Transaction[]
 }
 
@@ -45,10 +45,11 @@ model Loan {
 
 model Transaction {
     id Int @id @default(autoincrement())
-    transactionsID String @unique
-    account Account @relation(fields: [accountId], references: [accountID])
-    accountId String
-    amount Int
-    type String
+    transactionID String @unique
+    account Account @relation(fields: [accountID], references: [accountID])
+    accountID String
+    amount Decimal
+    currency String
     date DateTime
+    description String
 }
