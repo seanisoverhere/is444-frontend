@@ -11,7 +11,7 @@ class PortfolioController {
             try {
                 const accounts = await prisma.account.findMany({
                     where: {
-                        userID: userID
+                        ownerID: userID
                     }
                 });
                 
