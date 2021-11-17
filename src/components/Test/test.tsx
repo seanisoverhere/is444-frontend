@@ -3,22 +3,22 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 
 const Test: React.FC<{}> = () => {
-  const [account, setAccount] = useState(false);
+  // const [account, setAccount] = useState(false);
   useEffect(() => {
     var ApiURL = "http://tbankonline.com/SMUtBank_API/Gateway";
     var headerObj = {
       Header: {
-        serviceName: "getCustomerAccounts",
-        userID: "tammy.lim.2019",
-        PIN: "123456",
-        OTP: "458809"
+        serviceName: "getBenchmarkInterestRates",
+        userID: "",
+        PIN: "",
+        OTP: ""
       }
     };
     var header = JSON.stringify(headerObj);
     // got some need contentObj also, so need to refer to their documentation
-    
+
     const fetchInfo = async () => {
-      await axios.post(ApiURL + "?Header=" + header)
+      await axios.post(ApiURL + '?Header=' + header)
         .then((response) => {
           let serviceRespHeader = response.data.Content.ServiceResponse.ServiceRespHeader;
           let globalErrorID = serviceRespHeader.GlobalErrorID;
@@ -30,9 +30,18 @@ const Test: React.FC<{}> = () => {
             alert("globalErrorID 010000");
             return;
           }
-          let AccountList = response.data.Content.ServiceResponse.AccountList.account;
-          console.log(AccountList[0]);
-          setAccount(AccountList[0])
+          const interestRates = response.data.Content.ServiceResponse.InterestRateList.InterestRateItem;
+          let sgBenchmarkInterestRates = [];
+          for (let info of interestRates){
+            if (info.country == 'Singapore' && info.period !== "1M"){
+              sgBenchmarkInterestRates.push({
+                "interestRate":(info.interestRate * 0.9).toFixed(4), 
+                "period":info.period,
+              })
+              console.log(sgBenchmarkInterestRates);
+            }
+          }
+          
         }
         ).catch(error => {
           console.log(error)
@@ -42,8 +51,8 @@ const Test: React.FC<{}> = () => {
   }, [])
   return (
     <>
-      <div>Account ID: {account.accountID}</div>
-      <div>Account Balance: {account.balance}</div>
+      {/* <div>Account ID: {account.accountID}</div>
+      <div>Account Balance: {account.balance}</div> */}
     </>
   );
 };
