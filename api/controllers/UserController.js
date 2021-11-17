@@ -22,8 +22,9 @@ class UserController {
                         const globalErrorID = data.Content.ServiceResponse.ServiceRespHeader.GlobalErrorID;
                         
                         if (globalErrorID === "010000") {
-                            callback(418, {
-                                "message": 'OTP is required'
+                            callback(200, {
+                                "message": 'OTP is required',
+                                "requireOTP": true 
                             });
                         } else {
                             callback(401, {

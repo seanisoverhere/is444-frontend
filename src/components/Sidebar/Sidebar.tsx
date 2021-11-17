@@ -5,6 +5,11 @@ import { FiLogOut } from "react-icons/fi";
 import { BiUserCircle } from "react-icons/bi";
 
 const Sidebar: React.FC<{}> = () => {
+
+  const logoutHandler = () => {
+    localStorage.clear();
+  }
+
   return (
     <div className="min-h-screen flex flex-row">
       <div className="flex flex-col w-56 bg-white rounded-r-3xl overflow-hidden">
@@ -68,7 +73,7 @@ const Sidebar: React.FC<{}> = () => {
                 </p>
               </div>
             </div>
-            <Link to="/login">
+            <Link to="/login" onClick={logoutHandler}>
               <FiLogOut size={22} className="mr-6" />
             </Link>
           </div>

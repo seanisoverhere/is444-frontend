@@ -2,28 +2,6 @@ import React from "react";
 import { Routes, Route } from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
 import Login from "./pages/login";
-<<<<<<< Updated upstream
-<<<<<<< HEAD
-import Home from "./pages/home"
-import Product from "./pages/product";
-
-=======
-import Home from "./pages/home";
-import Test from "./pages/test";
->>>>>>> main
-
-function App() {
-  return (
-    <Routes>
-      <Route path="/" element={<Home />} />
-      <Route path="/login" element={<Login />} />
-<<<<<<< HEAD
-      <Route path="/product" element={<Product />} />
-=======
-      <Route path="/test" element={<Test />} />
->>>>>>> main
-    </Routes>
-=======
 import Home from "./pages/home";
 import Product from "./pages/product";
 
@@ -36,7 +14,6 @@ function App() {
         <Route path="/product" element={<Product />} />
       </Routes>
     </AnimatePresence>
->>>>>>> Stashed changes
   );
 }
 

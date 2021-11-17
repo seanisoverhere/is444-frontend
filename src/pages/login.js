@@ -1,12 +1,18 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import OTP from "../components/OTP/OTP";
 import { Link, useNavigate } from "react-router-dom";
 import Logo from "../assets/logo.png";
 import { motion } from "framer-motion";
+import axios from "axios";
 
-const Login: React.FC<{}> = () => {
+import { useDispatch } from "react-redux";
+import { authActions } from "../store/auth";
+
+const Login = () => {
   const [showOTP, setShowOTP] = useState(false);
+  const [isOtp, setIsOtp] = useState(false);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const transition = { duration: 0.6, ease: [0.43, 0.13, 0.23, 0.96] };
 
@@ -22,17 +28,48 @@ const Login: React.FC<{}> = () => {
     },
   };
 
-  const signIn = (e: any) => {
+  const userInputRef = useRef();
+  const passwordInputRef = useRef();
+
+  let myOtp;
+
+  const signIn = (e) => {
     e.preventDefault();
+    const enteredUser = userInputRef.current?.value;
+    const enteredPin = passwordInputRef.current?.value;
 
-    setShowOTP(!showOTP);
-
-    if (showOTP) {
-      navigate("/");
+    if (!enteredUser || !enteredPin) {
+      return;
     }
 
-    // if show OTP == true && OTP == correct
-    // Log in (dispatch action to store auth details and redirect to login page)
+    axios.defaults.baseURL = process.env.REACT_APP_BASE_URL;
+
+    if (!isOtp) {
+      axios
+        .post(process.env.REACT_APP_LOGIN, {
+          userID: enteredUser,
+          pin: enteredPin,
+        })
+        .then((res) => {
+          if (res.status === 200) {
+            setShowOTP(true);
+            setIsOtp(true);
+          }
+        });
+    } else {
+      axios
+        .post(process.env.REACT_APP_LOGIN, {
+          userID: enteredUser,
+          pin: enteredPin,
+          otp: myOtp,
+        })
+        .then((res) => {
+          if (res.status === 200) {
+            dispatch(authActions.login({ enteredUser, enteredPin, myOtp }));
+            navigate("/")
+          }
+        });
+    }
   };
 
   return (
@@ -51,25 +88,27 @@ const Login: React.FC<{}> = () => {
             </h2>
             <form className="flex flex-col pt-3 md:pt-8">
               <div className="flex flex-col pt-4">
-                <label htmlFor="email" className="text-lg">
-                  Email
+                <label htmlFor="user" className="text-lg">
+                  Username
                 </label>
                 <input
-                  type="email"
-                  id="email"
-                  placeholder="your@email.com"
+                  type="text"
+                  id="user"
+                  ref={userInputRef}
+                  placeholder="Username"
                   className="shadow appearance-none border-gray-300 rounded w-full py-2 px-3 text-gray-700 mt-1 leading-tight focus:ring-indigo-500 focus:border-indigo-500"
                 />
               </div>
 
               <div className="flex flex-col pt-4">
                 <label htmlFor="password" className="text-lg">
-                  Password
+                  Pin
                 </label>
                 <input
                   type="password"
                   id="password"
-                  placeholder="Password"
+                  ref={passwordInputRef}
+                  placeholder="Pin"
                   className="shadow appearance-none border-gray-300 rounded w-full py-2 px-3 text-gray-700 mt-1 leading-tight focus:ring-indigo-500 focus:border-indigo-500"
                 />
               </div>
@@ -91,7 +130,7 @@ const Login: React.FC<{}> = () => {
                     length={6}
                     className="flex justify-between items-center"
                     inputClassName="w-14 h-14 text-4xl text-center"
-                    onChangeOTP={(otp) => console.log("String OTP: ", otp)}
+                    onChangeOTP={(otp) => (myOtp = otp)}
                   />
                 </motion.div>
               ) : null}
