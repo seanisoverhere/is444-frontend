@@ -5,7 +5,8 @@ import axios from "axios";
 export const initialState = {
   loading: true,
   hasErrors: false,
-  details: []
+  transactions: [],
+  products: [],
 };
 
 const bankSlice = createSlice({
@@ -15,8 +16,13 @@ const bankSlice = createSlice({
     getBankingDetails: (state) => {
       state.loading = true;
     },
-    getBankingDetailsSuccess: (state, { payload }) => {
-      state.details = payload;
+    getTransactionsSuccess: (state, { payload }) => {
+      state.transactions = payload.transactions;
+      state.loading = false;
+      state.hasErrors = false;
+    },
+    getProductsSuccess: (state, { payload }) => {
+      state.products = payload.productInterestRates;
       state.loading = false;
       state.hasErrors = false;
     },
@@ -27,10 +33,15 @@ const bankSlice = createSlice({
 });
 
 // Actions generated from slice
-export const { getBankingDetails, getBankingDetailsSuccess, getBankingDetailsFailure } = bankSlice.actions;
+export const {
+  getBankingDetails,
+  getTransactionsSuccess,
+  getProductsSuccess,
+  getBankingDetailsFailure,
+} = bankSlice.actions;
 
 // Selector
-export const bankingSelector = (state) => state.details;
+export const bankingSelector = (state) => state.bankDetails;
 
 // Reducer
 export default bankSlice.reducer;
@@ -40,13 +51,34 @@ export const fetchDetails = () => {
   return async (dispatch) => {
     dispatch(getBankingDetails());
 
+    const { activity } = JSON.parse(localStorage.getItem("persist:auth"));
+    axios.defaults.baseURL = process.env.REACT_APP_BASE_URL;
+
+    const userID = activity.replace(/"/g, "");
+
+    // Get transaction history
+
     try {
-      axios.defaults.baseURL = process.env.REACT_APP_BASE_URL
-      const { data } = await axios.get(process.env.REACT_APP_MODULE);
+      const { data } = await axios.post(
+        process.env.REACT_APP_PORTFOLIO + "/transactions",
+        {
+          userID,
+        }
+      );
 
+      dispatch(getTransactionsSuccess(data));
+    } catch (err) {
+      console.log(err);
+      dispatch(getBankingDetailsFailure());
+    }
 
-      dispatch(getBankingDetailsSuccess(data));
-    } catch (error) {
+    // Get products
+
+    try {
+      const { data } = await axios.get(process.env.REACT_APP_PRODUCT + "/");
+      dispatch(getProductsSuccess(data));
+    } catch (err) {
+      console.log(err);
       dispatch(getBankingDetailsFailure());
     }
   };

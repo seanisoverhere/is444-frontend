@@ -65,7 +65,7 @@ const Login = () => {
         })
         .then((res) => {
           if (res.status === 200) {
-            dispatch(authActions.login({ enteredUser, enteredPin, myOtp }));
+            dispatch(authActions.login(enteredUser));
             navigate("/")
           }
         });
