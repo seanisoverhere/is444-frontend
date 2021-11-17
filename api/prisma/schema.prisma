@@ -11,6 +11,7 @@ model User {
     id Int @id @default(autoincrement())
     userID String @unique
     accounts Account[]
+    loan Loan[]
 }
 
 model Account {
@@ -18,6 +19,7 @@ model Account {
     accountID String @unique
     owner User @relation(fields: [ownerId], references: [userID])
     ownerId String
+    transactions Transaction[]
 }
 
 model Product {
@@ -31,8 +33,22 @@ model Product {
 }
 
 model Loan {
+    id Int @id @default(autoincrement())
+    custId String
+    customer User @relation(fields: [custId], references: [userID])
     loanAmount Decimal
     loanTenure Int
     loanInterest Decimal
-    tBankID String
+    repaymentAmt Decimal
+    totalRepaymentAmt Decimal
+}
+
+model Transaction {
+    id Int @id @default(autoincrement())
+    transactionsID String @unique
+    account Account @relation(fields: [accountId], references: [accountID])
+    accountId String
+    amount Int
+    type String
+    date DateTime
 }
