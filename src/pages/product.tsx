@@ -1,9 +1,9 @@
 import React from "react";
 import { motion } from "framer-motion";
 import Sidebar from "../components/Sidebar/Sidebar";
-import Dashboard from "../components/Home/Dashboard";
+import Products from "../components/Products/Products";
 
-const Home: React.FC<{}> = () => {
+const Product: React.FC<{}> = () => {
   const transition = { duration: 0.6, ease: [0.43, 0.13, 0.23, 0.96] };
 
   const variants = {
@@ -30,12 +30,11 @@ const Home: React.FC<{}> = () => {
         className="flex-1 ml-56 max-w-7xl"
       >
         <div className="container mx-12">
-          {/* Account Details - Account number, balance ; Transaction history each account ; Portfolio split emergency funds */}
-          <Dashboard />
+          <Products />
         </div>
       </motion.div>
     </div>
   );
 };
 
-export default Home;
+export default Product;

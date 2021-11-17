@@ -50,13 +50,13 @@ function Dashboard() {
 
   return (
     <>
-      <Card className="bg-orange-200 mt-12">
+      <Card className="bg-indigo-100 mt-12">
         <CardBody className="m-12 flex justify-between items-center">
           <div>
-            <h1 className="text-2xl font-semibold text-orange-600">
+            <h1 className="text-2xl font-semibold text-indigo-600">
               Welcome back, Sean 🌒
             </h1>
-            <h1 className="mt-4 text-md text-orange-600">
+            <h1 className="mt-4 text-md text-indigo-600">
               You have a large transaction made this month! <br />
               Would you like to convert it into a loan?
             </h1>
@@ -140,15 +140,11 @@ function Dashboard() {
           <Doughnut {...doughnutOptions} />
           <ChartLegend legends={doughnutLegends} />
         </ChartCard>
-        <ChartCard title="Revenue">
-          <Doughnut {...doughnutOptions} />
-          <ChartLegend legends={doughnutLegends} />
-        </ChartCard>
 
-        {/* <ChartCard title="Traffic">
+        <ChartCard title="Traffic">
           <Line {...lineOptions} />
           <ChartLegend legends={lineLegends} />
-        </ChartCard> */}
+        </ChartCard>
       </div>
     </>
   );
