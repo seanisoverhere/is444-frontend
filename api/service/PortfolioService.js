@@ -27,24 +27,26 @@ class PortfolioService {
 
                         for (const account of accounts) {
                             if (account.productID === "101" && account.currency === "SGD") {
-                                interestedAccount.push(account.accountID);
+                                interestedAccount.push(account);
                             }
                         }
 
 
                         if (interestedAccount.length > 0) {
-                            for (const accountId of interestedAccount) {
+                            for (const account of interestedAccount) {
                                 try {
                                     const dbAccount = await prisma.account.upsert({
                                         where: {
-                                            accountID: accountId
+                                            accountID: account.accountID
                                         },
                                         update: {
-                                            accountID: accountId,
+                                            accountID: account.accountID,
+                                            balance: parseFloat(account.balance),
                                             ownerID: userID
                                         },
                                         create: {
-                                            accountID: accountId,
+                                            accountID: account.accountID,
+                                            balance: parseFloat(account.balance),
                                             ownerID: userID
                                         }
                                     });

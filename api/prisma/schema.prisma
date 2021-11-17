@@ -19,6 +19,7 @@ model Account {
     accountID String @unique
     owner User @relation(fields: [ownerID], references: [userID])
     ownerID String
+    balance Decimal
     transactions Transaction[]
 }
 
