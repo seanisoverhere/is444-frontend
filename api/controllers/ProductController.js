@@ -2,14 +2,14 @@ const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 const axios = require('axios');
 const tBankURL = process.env.TBANK_URL
-const tBankHeaders = require('../services/TBankHeaderService');
+const tBankHeaders = require('../service/TBankHeaderService');
 
 
 class ProductController {
     static async getInterestRate(callback = (status, payload) => {}) {
         try {
             const { header } = tBankHeaders.getBenchmarkInterestRates();
-            const reqURL = `${ tBankURL }?Header=${header}`;
+            const reqURL = `${ tBankURL }?Header=${JSON.stringify(header)}`;
             axios
                 .get(reqURL)
                 .then(response => {
@@ -32,16 +32,11 @@ class ProductController {
                             "message": 'Successfully called API',
                             "productInterestRates": sgBenchmarkInterestRates
                         });
-                    } else if (globalErrorID !== "010010") {
-                        callback(401, {
+                    } else {
+                        callback(500, {
                             "message": 'Error retrieving API'
                         });
                     } 
-                    // else {
-                    //     callback(401, {
-                    //         "message": 'Invalid Login Details'
-                    //     });
-                    // }
                 });
         } catch (error) {
             callback(500, {

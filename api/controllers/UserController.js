@@ -3,7 +3,7 @@ const prisma = new PrismaClient();
 // const AuthService = require('../services/AuthService');
 const axios = require('axios');
 const tBankURL = process.env.TBANK_URL
-const tBankHeaders = require('../services/TBankHeaderService');
+const tBankHeaders = require('../service/TBankHeaderService');
 
 class UserController {
     static async login(userID, pin, otp, callback = (status, payload) => {}) {
@@ -14,7 +14,7 @@ class UserController {
                 });
             } else if (!otp) {
                 const { header } = tBankHeaders.requestOTP(userID, pin);
-                const reqURL = `${ tBankURL }?Header=${header}`;
+                const reqURL = `${ tBankURL }?Header=${JSON.stringify(header)}`;
                 axios
                     .get(reqURL)
                     .then(response => {
@@ -34,7 +34,7 @@ class UserController {
                 
             } else {
                 const { header } = tBankHeaders.loginCustomer(userID, pin, otp);
-                const reqURL = `${ tBankURL }?Header=${header}`;
+                const reqURL = `${ tBankURL }?Header=${JSON.stringify(header)}`;
                 axios
                     .get(reqURL)
                     .then(response => {
@@ -43,7 +43,7 @@ class UserController {
                         
                         if (globalErrorID === "010000") {
                             const customerID = data.Content.ServiceResponse["Login_OTP_Authenticate-Response"]["CustomerID"]
-                            this.initialLogin(customerID, userID, pin, OTP);
+                            this.initialLogin(customerID, userID, pin, otp);
                             callback(200, {
                                 "message": 'Login Successful'
                             });
@@ -65,13 +65,12 @@ class UserController {
         }
     }
     
-    static initialLogin(customerID, userID, pin, OTP) {
-        const portfolioController = require('./PortfolioController');
-        const user = this.registerUser(userID);
-        const interestedAccounts = portfolioController.getCustomerAccounts(userID, pin, OTP);
-        const interestedTransactions = []
+    static async initialLogin(customerID, userID, pin, OTP) {
+        const portfolioService = require('../service/PortfolioService');
+        const user = await this.registerUser(userID);
+        const interestedAccounts = await portfolioService.getCustomerAccounts(userID, pin, OTP);
         for (const accountID of interestedAccounts) {
-            interestedTransactions.concat( portfolioController.getTransactionHistory(userID, pin, OTP, accountID) );
+            const transactions = await portfolioService.getTransactionHistory(userID, pin, OTP, accountID);
         }
     }
     
@@ -79,7 +78,13 @@ class UserController {
     static async registerUser(userID) {
         try {
             const user = await prisma.user.upsert({
-                data: {
+                where: {
+                    userID: userID
+                },
+                update: {
+                    userID: userID
+                },
+                create: {
                     userID: userID
                 }
             });
@@ -89,85 +94,6 @@ class UserController {
         }
     }
 
-
-    // static async login(username, password, callback = (status, payload) => {}) {
-    //     const validationError = []
-    //     username ? null : validationError.push('username cannot be empty')
-    //     password ? null : validationError.push('password cannot be empty')
-
-    //     if (validationError.length == 0) {
-    //         try {
-    //             const user = await prisma.user.findUnique({
-    //                 where: {
-    //                     username: username,
-    //                 }
-    //             });
-
-    //             if (user) {
-    //                 const isMatch = AuthService.verifyHash(password, user.pHash);
-    //                 if (isMatch) {
-    //                     callback(200, {
-    //                         message: 'Login Success',
-    //                         user: user
-    //                     })
-    //                 } else {
-    //                     callback(401, {
-    //                         message: 'Invalid Password'
-    //                     })
-    //                 }
-    //             } else {
-    //                 callback(404, {
-    //                     message: 'User not found'
-    //                 })
-    //             }
-
-    //         } catch (error) {
-    //             console.error(error)
-    //             callback(500, {
-    //                 "error": error.message  
-    //             })
-    //         }
-
-    //     } else {
-    //         callback(400, {
-    //             "error": validationError
-    //         })
-    //     }
-    // }
-
-    // static async register(username, password, callback = (status, payload) => {}) {
-    //     // Add more user details later. Pass over by JSON object
-
-    //     const validationError = []
-    //     username ? null : validationError.push('username cannot be empty')
-    //     password ? null : validationError.push('password cannot be empty')
-
-    //     if (validationError.length == 0) {
-    //         try {
-    //             const user = await prisma.user.create({
-    //                 data: {
-    //                     username: username,
-    //                     pHash: AuthService.generateHash(password)
-    //                 }
-    //             });
-
-    //             callback(201, {
-    //                 message: 'User created',
-    //                 user: user
-    //             })
-    //         } catch (error) {
-    //             console.error(error)
-    //             callback(500, {
-    //                 "error": error.message  
-    //             })
-    //         }
-
-    //     } else {
-    //         callback(400, {
-    //             "error": validationError
-    //         })
-    //     }
-    // }
 }
 
 module.exports = UserController;
