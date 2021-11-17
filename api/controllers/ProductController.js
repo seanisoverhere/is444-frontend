@@ -44,30 +44,6 @@ class ProductController {
             });
         }
     }
-    
-    // static initialLogin(customerID, userID, pin, OTP) {
-    //     const portfolioController = require('./PortfolioController');
-    //     const user = this.registerUser(userID);
-    //     const interestedAccounts = portfolioController.getCustomerAccounts(userID, pin, OTP);
-    //     const interestedTransactions = []
-    //     for (const accountID of interestedAccounts) {
-    //         interestedTransactions.concat( portfolioController.getTransactionHistory(userID, pin, OTP, accountID) );
-    //     }
-    // }
-    
-    
-    // static async registerUser(userID) {
-    //     try {
-    //         const user = await prisma.user.upsert({
-    //             data: {
-    //                 userID: userID
-    //             }
-    //         });
-    //         return user;
-    //     } catch (error) {
-    //         throw error;
-    //     }
-    // }
 }
 
 

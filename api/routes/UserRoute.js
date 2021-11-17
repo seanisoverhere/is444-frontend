@@ -14,7 +14,7 @@ router.post('/login', (req, res, next) => {
         res.status(status).json(payload);
     })
 });
-
+  
 router.post('/register', (req, res, next) => {
     UserController.register(req, (status, payload) => {
         res.status(status).json(payload);

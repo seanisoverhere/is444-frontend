@@ -31,15 +31,17 @@ class PortfolioController {
     }
     
     
-    static async getTransactionHistory(accountID, callback = (status, payload) => {}) {
+    static async getTransactionHistory(userID, callback = (status, payload) => {}) {
         const validationError = [];
-        accountID ? null : validationError.push('accountID is empty');
+        userID ? null : validationError.push('userID is empty');
         
         if (validationError.length == 0) {
             try {
                 const transactions = await prisma.transaction.findMany({
                     where: {
-                        accountID: accountID
+                        account: {
+                            ownerID: userID
+                        }
                     }
                 });
                 
