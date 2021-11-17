@@ -9,8 +9,8 @@ class TBankHeaderService {
 
         return { header };
     }
-    
-    
+
+
     static loginCustomer(userID, pin, otp) {
         const header = {
             "serviceName": "loginCustomer",
@@ -18,11 +18,11 @@ class TBankHeaderService {
             "PIN": pin,
             "OTP": otp
         };
-        
+
         return { header };
     }
 
-    
+
     static getCustomerDetails(userID, pin, otp) {
         const header = {
             "serviceName": "getCustomerDetails",
@@ -30,11 +30,11 @@ class TBankHeaderService {
             "PIN": pin,
             "OTP": otp
         };
-        
+
         return { header };
     }
-    
-    
+
+
     static getCustomerAccounts(userID, pin, otp) {
         const header = {
             "serviceName": "getCustomerAccounts",
@@ -45,7 +45,7 @@ class TBankHeaderService {
 
         return { header };
     }
-    
+
 
     static getDepositAccounts(userID, pin, otp, accountID) {
         const header = {
@@ -54,11 +54,11 @@ class TBankHeaderService {
             "PIN": pin,
             "OTP": otp
         };
-        
+
         const content = {
             "accountID": accountID
         };
-        
+
         return { header, content };
     }
 
@@ -70,11 +70,11 @@ class TBankHeaderService {
             "PIN": pin,
             "OTP": otp
         };
-        
+
         const content = {
             "accountID": accountID
         };
-        
+
         return { header, content };
     }
 
@@ -86,33 +86,33 @@ class TBankHeaderService {
             "PIN": pin,
             "OTP": otp
         };
-        
+
         const content = {
             "accountID": accountID,
             "numMonths": numberOfMonths
         };
-        
+
         return { header, content };
     }
 
-    
+
     static getTransactionHistory(userID, pin, otp, accountID) {
         const today = new Date();
         const startDate = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 2);
         const monthAgo = new Date(today.getFullYear(), today.getMonth() - 1, today.getDate());
-        
+
         const startDateISO = startDate.toISOString().split('T')[0] + ' 00:00:00';
         const monthAgoISO = monthAgo.toISOString().split('T')[0] + ' 00:00:00';
-        
+
         const header = {
             "serviceName": "getTransactionHistory",
             "userID": userID,
             "PIN": pin,
             "OTP": otp
         };
-        
+
         const content = {
-            "Content": {   
+            "Content": {
                 "accountID": accountID,
                 "startDate": monthAgoISO,
                 "endDate": startDateISO,
@@ -120,11 +120,11 @@ class TBankHeaderService {
                 "pageNum": "1"
             }
         };
-        
+
         return { header, content };
     }
-    
-    
+
+
     static getBenchmarkInterestRates() {
         const header = {
             "serviceName": "getBenchmarkInterestRates",
@@ -132,10 +132,50 @@ class TBankHeaderService {
             "PIN": "",
             "OTP": ""
         };
-        
+
         return { header };
     }
-    
+
+
+    static addBeneficiary(userID, pin, otp, accountID) {
+        const header = {
+            "serviceName": "addBeneficiary",
+            "userID": userID,
+            "PIN": pin,
+            "OTP": otp
+        };
+
+        const content = {
+            "Content": {
+                "AccountID": accountID,
+                "Description": ""
+            }
+        };
+
+        return { header, content };
+    }
+
+
+    static creditTransfer(userID, pin, otp, accountFrom, accountTo, amount) {
+        const header = {
+            "serviceName": "creditTransfer",
+            "userID": userID,
+            "PIN": pin,
+            "OTP": otp
+        };
+
+        const content = {
+            "Content": { 
+                "accountFrom": accountFrom, 
+                "accountTo": accountTo, 
+                "transactionAmount": amount, 
+                "transactionReferenceNumber": "555555", 
+                "narrative": "DeezRupt Microloan" 
+            }
+        };
+
+        return { header, content };
+    }
 
 }
 

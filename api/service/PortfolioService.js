@@ -103,12 +103,10 @@ class PortfolioService {
                     const globalErrorID = data.Content.ServiceResponse.ServiceRespHeader.GlobalErrorID;
 
                     if (globalErrorID === "010000") {
-                        console.log(reqURL);
                         const interestedTransactions = [];
                         const transactionsObj = data.Content.ServiceResponse.CDMTransactionDetail;
                         
                         if (Object.keys(transactionsObj).length === 0) {
-                            console.log("No transactions found");
                             return interestedTransactions;
                         }
                         

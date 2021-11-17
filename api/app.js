@@ -25,8 +25,8 @@ app.use((req, res, next) => {
 const productRoutes = require('./routes/ProductRoute');
 app.use('/api/product', productRoutes);
 
-// const loansRoutes = require('./routes/LoansRoute');
-// app.use('/api/loans', LoansRoutes);
+const loansRoutes = require('./routes/LoansRoute');
+app.use('/api/loans', loansRoutes);
 
 const portfolioRoutes = require('./routes/PortfolioRoute');
 app.use('/api/portfolio', portfolioRoutes);
