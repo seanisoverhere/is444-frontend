@@ -1,0 +1,55 @@
+datasource db {
+    provider = "sqlite"
+    url      = "file:../db/deezrupt.db"
+}
+
+generator client {
+    provider = "prisma-client-js"
+}
+
+model User {
+    id Int @id @default(autoincrement())
+    userID String @unique
+    accounts Account[]
+    loan Loan[]
+}
+
+model Account {
+    id Int @id @default(autoincrement())
+    accountID String @unique
+    owner User @relation(fields: [ownerID], references: [userID])
+    ownerID String
+    transactions Transaction[]
+}
+
+model Product {
+    productID Int @id @default(autoincrement())
+    productName String
+    description String
+    productType String
+    minPackageCriteria Decimal
+    duration Int
+    risk String
+}
+
+model Loan {
+    id Int @id @default(autoincrement())
+    custId String
+    customer User @relation(fields: [custId], references: [userID])
+    loanAmount Decimal
+    loanTenure Int
+    loanInterest Decimal
+    repaymentAmt Decimal
+    totalRepaymentAmt Decimal
+}
+
+model Transaction {
+    id Int @id @default(autoincrement())
+    transactionID String @unique
+    account Account @relation(fields: [accountID], references: [accountID])
+    accountID String
+    amount Decimal
+    currency String
+    date DateTime
+    description String
+}
