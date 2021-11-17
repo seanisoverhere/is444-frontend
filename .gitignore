@@ -17,6 +17,9 @@ db/
 # Prisma Migration
 */prisma/migrations/
 
+# 
+*.http
+
 # misc
 .DS_Store
 .env.local
@@ -31,3 +34,4 @@ yarn-error.log*
 
 .env
 *.key
+api/http/tbank.http
