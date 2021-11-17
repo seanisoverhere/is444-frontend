@@ -24,6 +24,8 @@ class PortfolioService {
                     if (globalErrorID === "010000") {
                         const accounts = data.Content.ServiceResponse.AccountList.account;
                         const interestedAccount = [];
+                        const interestedAccountsID = [];
+                        
 
                         for (const account of accounts) {
                             if (account.productID === "101" && account.currency === "SGD") {
@@ -34,6 +36,7 @@ class PortfolioService {
 
                         if (interestedAccount.length > 0) {
                             for (const account of interestedAccount) {
+                                interestedAccountsID.push(account.accountID);
                                 try {
                                     const dbAccount = await prisma.account.upsert({
                                         where: {
@@ -56,7 +59,8 @@ class PortfolioService {
                             }
                         }
 
-                        return interestedAccount;
+                        
+                        return interestedAccountsID;
 
                     } else {
                         return {
@@ -99,6 +103,7 @@ class PortfolioService {
                     const globalErrorID = data.Content.ServiceResponse.ServiceRespHeader.GlobalErrorID;
 
                     if (globalErrorID === "010000") {
+                        console.log(reqURL);
                         const interestedTransactions = [];
                         const transactionsObj = data.Content.ServiceResponse.CDMTransactionDetail;
                         
