@@ -23,19 +23,19 @@ app.use((req, res, next) => {
 
 // Services Routes
 const productRoutes = require('./routes/ProductRoute');
-app.use('/api/products', productRoutes);
+app.use('/api/product', productRoutes);
 
-const loansRoutes = require('./routes/LoansRoute');
-app.use('/api/loans', LoansRoutes);
+// const loansRoutes = require('./routes/LoansRoute');
+// app.use('/api/loans', LoansRoutes);
 
 const portfolioRoutes = require('./routes/PortfolioRoute');
 app.use('/api/portfolio', portfolioRoutes);
 
-const paymentRoutes = require('./routes/PaymentRoute');
-app.use('/api/payments', paymentRoutes);
+// const paymentRoutes = require('./routes/PaymentRoute');
+// app.use('/api/payments', paymentRoutes);
 
 const userRoutes = require('./routes/UserRoute');
-app.use('/api/users', userRoutes);
+app.use('/api/user', userRoutes);
 
 
 
