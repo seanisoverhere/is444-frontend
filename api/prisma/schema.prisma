@@ -19,3 +19,20 @@ model Account {
     owner User @relation(fields: [ownerId], references: [userID])
     ownerId String
 }
+
+model Product {
+    productID Int @id @default(autoincrement())
+    productName String
+    description String
+    productType String
+    minPackageCriteria Decimal
+    duration Int
+    risk String
+}
+
+model Loan {
+    loanAmount Decimal
+    loanTenure Int
+    loanInterest Decimal
+    tBankID String
+}
