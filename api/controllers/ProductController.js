@@ -21,9 +21,15 @@ class ProductController {
                         let sgBenchmarkInterestRates = [];
                         for (let info of interestRates){
                             if (info.country == 'Singapore' && info.period !== "1M"){
+                                const tenureMapping = {
+                                    "3M": 3,
+                                    "6M": 6,
+                                    "1Y": 9,
+                                }
+                                
                                 sgBenchmarkInterestRates.push({
                                     "interestRate":(info.interestRate * 0.9).toFixed(4), 
-                                    "period":info.period,
+                                    "period":tenureMapping[info.period],
                                 })
                             }
                         }
