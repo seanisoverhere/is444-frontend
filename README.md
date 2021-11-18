@@ -4,11 +4,11 @@ You will need to have yarn installed globally in your computer - `npm install --
 
 Create a .env file in the root folder and place the following in it:
 
-REACT_APP_BASE_URL=http://localhost:6543/api
-REACT_APP_LOGIN=/user/login
-REACT_APP_PORTFOLIO=/portfolio
-REACT_APP_PRODUCT=/product
-REACT_APP_LOAN=/loans
+REACT_APP_BASE_URL=http://localhost:6543/api \
+REACT_APP_LOGIN=/user/login \
+REACT_APP_PORTFOLIO=/portfolio \
+REACT_APP_PRODUCT=/product \
+REACT_APP_LOAN=/loans \
 ## Available Scripts
 
 In the project directory, you can run:
