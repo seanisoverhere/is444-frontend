@@ -5,12 +5,18 @@ import { MdOutlineProductionQuantityLimits, MdOutlineHome } from "react-icons/md
 import { FiLogOut } from "react-icons/fi";
 import { BiUserCircle } from "react-icons/bi";
 
+import { useSelector } from "react-redux";
+import { bankingSelector } from "../../store/bank";
+
 const Sidebar: React.FC<{}> = () => {
 
   const logoutHandler = () => {
     localStorage.clear();
     localforage.clear();
   }
+
+  const { balance } = useSelector(bankingSelector);
+  const getAccount = balance.filter((b: any) => b.balance > 0)[0];
 
   return (
     <div className="min-h-screen flex flex-row">
@@ -69,9 +75,9 @@ const Sidebar: React.FC<{}> = () => {
             <div className="flex justify-center items-center space-x-2">
               <BiUserCircle size={30} />
               <div className="flex justify-start flex-col items-start mr-4">
-                <p className="font-medium text-xs text-gray-500">Sean Choon</p>
+                <p className="font-medium text-xs text-gray-500">{getAccount.ownerID}</p>
                 <p className="font-medium text-xs text-gray-500">
-                  sean@gmail.com
+                  {getAccount.accountID}
                 </p>
               </div>
             </div>

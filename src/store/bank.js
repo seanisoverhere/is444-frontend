@@ -7,6 +7,7 @@ export const initialState = {
   hasErrors: false,
   transactions: [],
   products: [],
+  balance: 0,
 };
 
 const bankSlice = createSlice({
@@ -26,6 +27,11 @@ const bankSlice = createSlice({
       state.loading = false;
       state.hasErrors = false;
     },
+    getBalanceSuccess: (state, { payload }) => {
+      state.balance = payload.accounts;
+      state.loading = false;
+      state.hasErrors = false;
+    },
     getBankingDetailsFailure: (state) => {
       state.hasErrors = true;
     },
@@ -37,6 +43,7 @@ export const {
   getBankingDetails,
   getTransactionsSuccess,
   getProductsSuccess,
+  getBalanceSuccess,
   getBankingDetailsFailure,
 } = bankSlice.actions;
 
@@ -57,6 +64,20 @@ export const fetchDetails = () => {
     const userID = activity.replace(/"/g, "");
 
     // Get transaction history
+
+    try {
+      const { data } = await axios.post(
+        process.env.REACT_APP_PORTFOLIO + "/accounts",
+        {
+          userID,
+        }
+      );
+
+      dispatch(getBalanceSuccess(data));
+    } catch (err) {
+      console.log(err);
+      dispatch(getBankingDetailsFailure());
+    }
 
     try {
       const { data } = await axios.post(
