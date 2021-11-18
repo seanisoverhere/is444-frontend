@@ -34,8 +34,20 @@ class LoansController {
                     
                     const sentMoney = await LoanService.disperseLoanAmount(accountID, loanAmt)
                     if (sentMoney) {
+                        const updatedAccountBalance = await prisma.account.update({
+                            where: {
+                                accountID: accountID
+                            },
+                            data: {
+                                balance: {
+                                    increment: loanAmt
+                                }
+                            }
+                        });
+                        
                         callback(200, {
                             loanID: loan.id,
+                            newBalance: updatedAccountBalance.balance,
                             message: 'Loan approved successfully'
                         });
                     } else {
