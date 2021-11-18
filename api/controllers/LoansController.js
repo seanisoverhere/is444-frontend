@@ -74,6 +74,33 @@ class LoansController {
     }
     
     
+    static async getLoanRepayment(loanID, callback = (status, payload) => {}) {
+        const validationError = [];
+        loanID ? null : validationError.push('loanID is empty');
+        
+        if (validationError.length == 0) {
+            const loan = await prisma.loan.findOne({
+                where: {
+                    id: loanID
+                }
+            });
+            
+            if (loan) {
+                callback(200, {
+                    repaymentAmount: loan.repaymentAmt
+                });
+            } else {
+                callback(404, {
+                    error: 'Loan not found'
+                });
+            }
+        } else {
+            callback(400, {
+                "error": validationError
+            });
+        }
+    }    
+    
 }
 
 module.exports = LoansController;

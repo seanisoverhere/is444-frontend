@@ -28,6 +28,14 @@ router.post('/myLoans', (req, res, next) => {
 });
 
 
+router.get('/repayment/:loanID', (req, res, next) => {
+    const {
+        loanID,
+    } = req.params;
 
+    LoansController.getLoanRepayment(loanID, (status, payload) => {
+        res.status(status).json(payload);
+    });
+})
 
 module.exports = router;
