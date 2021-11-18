@@ -18,7 +18,7 @@ class LoansController {
                     const interestRates = payload.productInterestRates;
                     const loanInterestRate = interestRates.find(interestRate => interestRate.period === loanTenure).interestRate;
                     
-                    const totalLoanAmt = loanAmt + (loanAmt * loanInterestRate);
+                    const totalLoanAmt = loanAmt + (loanAmt * (loanInterestRate / 100));
                     const repaymentAmt = totalLoanAmt / loanTenure;
                     
                     const loan = await prisma.loan.create({
