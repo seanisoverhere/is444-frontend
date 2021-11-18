@@ -6,10 +6,11 @@ interface InfoCardProps {
   value: string;
 }
 
-const InfoCard: React.FC<InfoCardProps> = ({ title, value }) => {
+const InfoCard: React.FC<InfoCardProps> = ({ title, value, children }) => {
   return (
     <Card>
       <CardBody className="flex items-center">
+        <div className="mr-3">{children}</div>
         <div>
           <p className="mb-2 text-sm font-medium text-gray-600 dark:text-gray-400">
             {title}

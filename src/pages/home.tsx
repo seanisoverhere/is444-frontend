@@ -3,8 +3,8 @@ import { motion } from "framer-motion";
 import Sidebar from "../components/Sidebar/Sidebar";
 import Dashboard from "../components/Home/Dashboard";
 
-import { useDispatch, useSelector } from "react-redux";
-import { fetchDetails, bankingSelector } from "../store/bank";
+import { useDispatch } from "react-redux";
+import { fetchDetails } from "../store/bank";
 
 const Home: React.FC<{}> = () => {
   const dispatch = useDispatch();
@@ -22,15 +22,11 @@ const Home: React.FC<{}> = () => {
     },
   };
 
-  const { transactions, products } = useSelector(bankingSelector);
-
   useEffect(() => {
     setTimeout(() => {
-      if (transactions.length === 0 && products.length === 0) {
-        dispatch(fetchDetails());
-      }
+      dispatch(fetchDetails());
     }, 1000);
-  }, [dispatch, transactions, products]);
+  }, [dispatch]);
 
   return (
     <div className="flex">
