@@ -198,7 +198,7 @@ function Dashboard() {
                   </TableCell>
                   <TableCell>
                     <span className="text-sm">
-                      {user.amount >= 5000
+                      {user.amount >= 3000
                         ? [
                             allID.includes(user.transactionID) ? (
                               <Badge type="warning">On Loan</Badge>
