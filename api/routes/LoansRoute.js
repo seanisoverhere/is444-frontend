@@ -16,4 +16,18 @@ router.post('/new', (req, res, next) => {
     });
 });
 
+
+router.post('/myLoans', (req, res, next) => {
+    const {
+        userID,
+    } = req.body;
+
+    LoansController.getMyLoans(userID, (status, payload) => {
+        res.status(status).json(payload);
+    });
+});
+
+
+
+
 module.exports = router;

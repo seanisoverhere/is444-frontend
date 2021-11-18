@@ -52,7 +52,26 @@ class LoansController {
         }
     }
     
-    
+    static async getMyLoans(userID, callback = (status, payload) => {}) {
+        const validationError = [];
+        userID ? null : validationError.push('userID is empty');
+        
+        if (validationError.length == 0) {
+            const loans = await prisma.loan.findMany({
+                where: {
+                    custId: userID
+                }
+            });
+            
+            callback(200, {
+                loans: loans
+            });
+        } else {
+            callback(400, {
+                "error": validationError
+            });
+        }
+    }
     
     
 }
