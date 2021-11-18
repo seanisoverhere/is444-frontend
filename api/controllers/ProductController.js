@@ -24,7 +24,7 @@ class ProductController {
                                 const tenureMapping = {
                                     "3M": 3,
                                     "6M": 6,
-                                    "1Y": 9,
+                                    "1Y": 12,
                                 }
                                 
                                 sgBenchmarkInterestRates.push({

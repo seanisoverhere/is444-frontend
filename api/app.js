@@ -31,9 +31,6 @@ app.use('/api/loans', loansRoutes);
 const portfolioRoutes = require('./routes/PortfolioRoute');
 app.use('/api/portfolio', portfolioRoutes);
 
-// const paymentRoutes = require('./routes/PaymentRoute');
-// app.use('/api/payments', paymentRoutes);
-
 const userRoutes = require('./routes/UserRoute');
 app.use('/api/user', userRoutes);
 
