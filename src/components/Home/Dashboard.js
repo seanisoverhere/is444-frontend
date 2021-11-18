@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from "react";
 
-import InfoCard from "../Cards/InfoCard";
-// import ChartCard from "../Chart/ChartCard";
-// import ChartLegend from "../Chart/ChartLegend.js";
-// import { Doughnut, Line } from "react-chartjs-2";
-
+import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { bankingSelector } from "../../store/bank";
+
+import InfoCard from "../Cards/InfoCard";
 
 import {
   TableBody,
@@ -21,13 +19,6 @@ import {
   Card,
   CardBody,
 } from "@windmill/react-ui";
-
-// import {
-//   doughnutOptions,
-//   lineOptions,
-//   doughnutLegends,
-//   lineLegends,
-// } from "../../utils/chartData";
 
 import Profile from "../../assets/profile.png";
 
@@ -55,8 +46,6 @@ function Dashboard() {
   }, [page, resultsPerPage, transactions]);
 
   const getAccount = balance.filter((b) => b.balance > 0)[0];
-
-  console.log(getAccount);
 
   return (
     <>
@@ -104,7 +93,12 @@ function Dashboard() {
           </div>
         </InfoCard>
 
-        <InfoCard title="Account balance" value={`$ ${getAccount.balance}`}>
+        <InfoCard
+          title="Account balance"
+          value={`$ ${Number(getAccount.balance)
+            .toFixed(2)
+            .replace(/\d(?=(\d{3})+\.)/g, "$&,")}`}
+        >
           <div className="flex items-center justify-center w-8 h-8 mb-4 rounded-full bg-indigo-50">
             <svg
               className="w-10 h-10 text-indigo-400"
@@ -198,7 +192,17 @@ function Dashboard() {
                   <TableCell>
                     <span className="text-sm">
                       {user.amount >= 5000 ? (
-                        <Badge type={user.status}>Eligible</Badge>
+                        <Link
+                          to="/product"
+                          state={{ transaction: user.transactionID }}
+                        >
+                          <Badge
+                            type={user.status}
+                            className="hover:bg-indigo-500 hover:text-white transform transition-all duration-300"
+                          >
+                            Eligible
+                          </Badge>
+                        </Link>
                       ) : null}
                     </span>
                   </TableCell>

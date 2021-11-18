@@ -65,6 +65,8 @@ export const fetchDetails = () => {
 
     // Get transaction history
 
+    console.log("HI I AM CALLING")
+
     try {
       const { data } = await axios.post(
         process.env.REACT_APP_PORTFOLIO + "/accounts",

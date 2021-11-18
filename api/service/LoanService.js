@@ -23,6 +23,7 @@ class LoanService {
                 try {
                     const { data } = await axios.get(reqURL);
                     const globalErrorID = data.Content.ServiceResponse.ServiceRespHeader.GlobalErrorID;
+                    console.log(data.Content);
                     
                     if (globalErrorID === "010000") {
                         return true;
@@ -51,7 +52,6 @@ class LoanService {
             try {
                 const { data } = await axios.get(reqURL);
                 const globalErrorID = data.Content.ServiceResponse.ServiceRespHeader.GlobalErrorID;
-                
                 if (globalErrorID === "010000") {
                     return true;
                 } else {

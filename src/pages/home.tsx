@@ -30,7 +30,7 @@ const Home: React.FC<{}> = () => {
 
   return (
     <div className="flex">
-      <div className="flex-none fixed z-50 overflow-x-hidden top-0 left-0 shadow-md">
+      <div className="flex-none fixed z-10 overflow-x-hidden top-0 left-0 shadow-md">
         <Sidebar />
       </div>
       <motion.div

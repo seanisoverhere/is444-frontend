@@ -39,6 +39,7 @@ class LoansController {
                             message: 'Loan approved successfully'
                         });
                     } else {
+                      console.log("ni ma")
                         callback(500, {
                             error: 'Failed to disperse loan amount'
                         });
