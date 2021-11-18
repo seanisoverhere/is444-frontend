@@ -60,6 +60,7 @@ class LoansController {
                 }
             });
         } else {
+          console.log(validationError)
             callback(400, {
                 "error": validationError
             });

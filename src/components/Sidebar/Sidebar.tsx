@@ -1,6 +1,5 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import localforage from "localforage";
 import { MdOutlineProductionQuantityLimits, MdOutlineHome } from "react-icons/md";
 import { FiLogOut } from "react-icons/fi";
 import { BiUserCircle } from "react-icons/bi";
@@ -12,7 +11,6 @@ const Sidebar: React.FC<{}> = () => {
 
   const logoutHandler = () => {
     localStorage.clear();
-    localforage.clear();
   }
 
   const { balance } = useSelector(bankingSelector);

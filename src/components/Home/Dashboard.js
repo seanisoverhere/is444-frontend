@@ -26,7 +26,8 @@ function Dashboard() {
   const [page, setPage] = useState(1);
   const [data, setData] = useState([]);
 
-  const { loading, transactions, balance } = useSelector(bankingSelector);
+  const { loading, transactions, balance, loans } =
+    useSelector(bankingSelector);
 
   // pagination setup
   const resultsPerPage = 5;
@@ -38,7 +39,6 @@ function Dashboard() {
   }
 
   // on page change, load new sliced data
-  // here you would make another server request for new data
   useEffect(() => {
     setData(
       transactions.slice((page - 1) * resultsPerPage, page * resultsPerPage)
@@ -46,6 +46,13 @@ function Dashboard() {
   }, [page, resultsPerPage, transactions]);
 
   const getAccount = balance.filter((b) => b.balance > 0)[0];
+
+  const totalRepayment = loans.loans
+    .reduce((a, b) => +a + +b.repaymentAmt, 0)
+    .toFixed(2)
+    .replace(/\d(?=(\d{3})+\.)/g, "$&,");
+
+  const allID = loans.loans.map((value) => value.transactionID);
 
   return (
     <>
@@ -116,7 +123,7 @@ function Dashboard() {
           </div>
         </InfoCard>
 
-        <InfoCard title="Active Loans" value="3">
+        <InfoCard title="Active Loans" value={loans.loans.length}>
           <div className="flex items-center justify-center w-8 h-8 mb-4 rounded-full bg-indigo-50">
             <svg
               className="w-10 h-10 text-indigo-400"
@@ -134,7 +141,7 @@ function Dashboard() {
           </div>
         </InfoCard>
 
-        <InfoCard title="Monthly Repayment" value="$ 1000">
+        <InfoCard title="Monthly Repayment" value={`$ ${totalRepayment}`}>
           <div className="flex items-center justify-center w-8 h-8 mb-4 rounded-full bg-indigo-50">
             <svg
               className="w-10 h-10 text-indigo-400"
@@ -191,19 +198,25 @@ function Dashboard() {
                   </TableCell>
                   <TableCell>
                     <span className="text-sm">
-                      {user.amount >= 5000 ? (
-                        <Link
-                          to="/product"
-                          state={{ transaction: user.transactionID }}
-                        >
-                          <Badge
-                            type={user.status}
-                            className="hover:bg-indigo-500 hover:text-white transform transition-all duration-300"
-                          >
-                            Eligible
-                          </Badge>
-                        </Link>
-                      ) : null}
+                      {user.amount >= 5000
+                        ? [
+                            allID.includes(user.transactionID) ? (
+                              <Badge type="warning">On Loan</Badge>
+                            ) : (
+                              <Link
+                                to="/product"
+                                state={{ transaction: user.transactionID }}
+                              >
+                                <Badge
+                                  type={user.status}
+                                  className="hover:bg-indigo-500 hover:text-white transform transition-all duration-300"
+                                >
+                                  Eligible
+                                </Badge>
+                              </Link>
+                            ),
+                          ]
+                        : null}
                     </span>
                   </TableCell>
                 </TableRow>

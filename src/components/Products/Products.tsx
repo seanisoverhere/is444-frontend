@@ -43,6 +43,8 @@ const Products: React.FC<{}> = () => {
   const ownerID = getAccount.ownerID;
 
   axios.defaults.baseURL = process.env.REACT_APP_BASE_URL;
+  
+  const transactionID = transactionInstance.transactionID;
 
   function closeModal() {
     setIsOpen(false);
@@ -61,12 +63,12 @@ const Products: React.FC<{}> = () => {
     const { data } = await axios.post(process.env.REACT_APP_LOAN + "/new", {
       accountID,
       userID: ownerID,
+      transactionID,
       amount: Number(transactionInstance.amount),
       term: 3,
     });
 
-    console.log(data)
-
+    console.log(data);
   };
 
   const openModal2 = async () => {
@@ -75,6 +77,7 @@ const Products: React.FC<{}> = () => {
     const { data } = await axios.post(process.env.REACT_APP_LOAN + "/new", {
       accountID,
       userID: ownerID,
+      transactionID,
       amount: Number(transactionInstance.amount),
       term: 6,
     });
@@ -88,6 +91,7 @@ const Products: React.FC<{}> = () => {
     const { data } = await axios.post(process.env.REACT_APP_LOAN + "/new", {
       accountID,
       userID: ownerID,
+      transactionID,
       amount: Number(transactionInstance.amount),
       term: 12,
     });
@@ -408,17 +412,25 @@ const Products: React.FC<{}> = () => {
                 </div>
                 <div className="my-5 space-y-3">
                   <div className="text-gray-700">
-                    Interest Rate: {products[0].interestRate}%
+                    Interest Rate:{" "}
+                    <span className="font-bold">
+                      {" "}
+                      {products[0].interestRate}%{" "}
+                    </span>
                   </div>
                   <div className="text-gray-700">
-                    Total Payable Amount: ${" "}
-                    {(
-                      Number(transactionInstance.amount) +
-                      Number(
-                        transactionInstance.amount *
-                          (products[0].interestRate / 100)
-                      )
-                    ).toFixed(2)}
+                    Total Payable Amount:{" "}
+                    <span className="font-bold">
+                      {" "}
+                      ${" "}
+                      {(
+                        Number(transactionInstance.amount) +
+                        Number(
+                          transactionInstance.amount *
+                            (products[0].interestRate / 100)
+                        )
+                      ).toFixed(2)}
+                    </span>
                   </div>
                 </div>
               </div>
@@ -460,17 +472,25 @@ const Products: React.FC<{}> = () => {
                 </div>
                 <div className="my-5 space-y-3">
                   <div className="text-gray-700">
-                    Interest Rate: {products[1].interestRate}%
+                    Interest Rate:{" "}
+                    <span className="font-bold">
+                      {" "}
+                      {products[1].interestRate}%{" "}
+                    </span>
                   </div>
                   <div className="text-gray-700">
-                    Total Payable Amount: ${" "}
-                    {(
-                      Number(transactionInstance.amount) +
-                      Number(
-                        transactionInstance.amount *
-                          (products[1].interestRate / 100)
-                      )
-                    ).toFixed(2)}
+                    Total Payable Amount:{" "}
+                    <span className="font-bold">
+                      {" "}
+                      ${" "}
+                      {(
+                        Number(transactionInstance.amount) +
+                        Number(
+                          transactionInstance.amount *
+                            (products[1].interestRate / 100)
+                        )
+                      ).toFixed(2)}
+                    </span>
                   </div>
                 </div>
               </div>
@@ -507,17 +527,25 @@ const Products: React.FC<{}> = () => {
                 </div>
                 <div className="my-5 space-y-3">
                   <div className="text-gray-700">
-                    Interest Rate: {products[2].interestRate}%
+                    Interest Rate:{" "}
+                    <span className="font-bold">
+                      {" "}
+                      {products[2].interestRate}%{" "}
+                    </span>
                   </div>
                   <div className="text-gray-700">
-                    Total Payable Amount: ${" "}
-                    {(
-                      Number(transactionInstance.amount) +
-                      Number(
-                        transactionInstance.amount *
-                          (products[2].interestRate / 100)
-                      )
-                    ).toFixed(2)}
+                    Total Payable Amount:{" "}
+                    <span className="font-bold">
+                      {" "}
+                      ${" "}
+                      {(
+                        Number(transactionInstance.amount) +
+                        Number(
+                          transactionInstance.amount *
+                            (products[2].interestRate / 100)
+                        )
+                      ).toFixed(2)}
+                    </span>
                   </div>
                 </div>
               </div>

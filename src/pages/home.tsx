@@ -40,7 +40,6 @@ const Home: React.FC<{}> = () => {
         className="flex-1 ml-56 max-w-7xl"
       >
         <div className="container mx-12">
-          {/* Account Details - Account number, balance ; Transaction history each account ; Portfolio split emergency funds */}
           <Dashboard />
         </div>
       </motion.div>
