@@ -3,8 +3,8 @@ import { motion } from "framer-motion";
 import Sidebar from "../components/Sidebar/Sidebar";
 import Dashboard from "../components/Home/Dashboard";
 
-import { useDispatch } from "react-redux";
-import { fetchDetails } from "../store/bank";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchDetails, bankingSelector } from "../store/bank";
 
 const Home: React.FC<{}> = () => {
   const dispatch = useDispatch();
@@ -28,21 +28,29 @@ const Home: React.FC<{}> = () => {
     }, 1000);
   }, [dispatch]);
 
+  const { loading } = useSelector(bankingSelector);
+
+  console.log(loading);
+
   return (
     <div className="flex">
-      <div className="flex-none fixed z-10 overflow-x-hidden top-0 left-0 shadow-md">
-        <Sidebar />
-      </div>
-      <motion.div
-        initial="initial"
-        animate="animate"
-        variants={variants}
-        className="flex-1 ml-56 max-w-7xl"
-      >
-        <div className="container mx-12">
-          <Dashboard />
-        </div>
-      </motion.div>
+      {!loading ? (
+        <>
+          <div className="flex-none fixed z-10 overflow-x-hidden top-0 left-0 shadow-md">
+            <Sidebar />
+          </div>
+          <motion.div
+            initial="initial"
+            animate="animate"
+            variants={variants}
+            className="flex-1 ml-56 max-w-7xl"
+          >
+            <div className="container mx-12">
+              <Dashboard />
+            </div>
+          </motion.div>
+        </>
+      ) : null}
     </div>
   );
 };

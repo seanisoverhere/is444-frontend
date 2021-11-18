@@ -20,27 +20,26 @@ const bankSlice = createSlice({
     },
     getLoansSuccess: (state, { payload }) => {
       state.loans = payload;
-      state.loading = false;
       state.hasErrors = false;
     },
     getTransactionsSuccess: (state, { payload }) => {
       state.transactions = payload.transactions;
-      state.loading = false;
       state.hasErrors = false;
     },
     getProductsSuccess: (state, { payload }) => {
       state.products = payload.productInterestRates;
-      state.loading = false;
       state.hasErrors = false;
     },
     getBalanceSuccess: (state, { payload }) => {
       state.balance = payload.accounts;
-      state.loading = false;
       state.hasErrors = false;
     },
     getBankingDetailsFailure: (state) => {
       state.hasErrors = true;
     },
+    finishLoading: (state) => {
+      state.loading = false;
+    }
   },
 });
 
@@ -52,6 +51,7 @@ export const {
   getProductsSuccess,
   getBalanceSuccess,
   getBankingDetailsFailure,
+  finishLoading
 } = bankSlice.actions;
 
 // Selector
@@ -123,5 +123,8 @@ export const fetchDetails = () => {
       console.log(err);
       dispatch(getBankingDetailsFailure());
     }
+
+    dispatch(finishLoading());
+
   };
 };
