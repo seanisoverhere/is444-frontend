@@ -6,11 +6,12 @@ const ProductController = require('./ProductController');
 const LoanService = require('../service/LoanService');
 
 class LoansController {
-    static async approveLoan(userID, accountID, loanAmt, loanTenure, callback = (status, payload) => {}) {
+    static async approveLoan(userID, accountID, transactionID, loanAmt, loanTenure, callback = (status, payload) => {}) {
         const validationError = [];
         userID ? null : validationError.push('userID is empty');
         loanAmt ? null : validationError.push('loanAmt is empty');
         loanTenure ? null : validationError.push('loanTenure is empty');
+        transactionID ? null : validationError.push('transactionID is empty');
         
         if (validationError.length == 0) {
             ProductController.getInterestRate(async (status, payload) => {
@@ -26,6 +27,7 @@ class LoansController {
                             custId: userID,
                             loanAmount: Math.round((totalLoanAmt + Number.EPSILON) * 100) / 100,
                             loanTenure: loanTenure,
+                            transactionID: transactionID,
                             loanInterest: loanInterestRate,
                             repaymentAmt: Math.round((repaymentAmt + Number.EPSILON) * 100) / 100,
                             totalRepaymentAmt: 0
@@ -51,7 +53,6 @@ class LoansController {
                             message: 'Loan approved successfully'
                         });
                     } else {
-                      console.log("ni ma")
                         callback(500, {
                             error: 'Failed to disperse loan amount'
                         });

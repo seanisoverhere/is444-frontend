@@ -37,6 +37,8 @@ model Loan {
     id Int @id @default(autoincrement())
     custId String
     customer User @relation(fields: [custId], references: [userID])
+    transactionID String
+    transaction Transaction @relation(fields: [transactionID], references: [transactionID])
     loanAmount Decimal
     loanTenure Int
     loanInterest Decimal
@@ -53,4 +55,5 @@ model Transaction {
     currency String
     date DateTime
     description String
+    loan Loan? 
 }

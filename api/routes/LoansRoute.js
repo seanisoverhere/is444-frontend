@@ -7,11 +7,12 @@ router.post('/new', (req, res, next) => {
     const {
         userID,
         accountID,
+        transactionID,
         amount,
         term,
     } = req.body;
 
-    LoansController.approveLoan(userID, accountID, amount, term, (status, payload) => {
+    LoansController.approveLoan(userID, accountID, transactionID, amount, term, (status, payload) => {
         res.status(status).json(payload);
     });
 });

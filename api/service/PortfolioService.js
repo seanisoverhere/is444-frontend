@@ -36,19 +36,20 @@ class PortfolioService {
 
                         if (interestedAccount.length > 0) {
                             for (const account of interestedAccount) {
-                                interestedAccountsID.push(account.accountID);
+                                const custAccountID = account.accountID.substring( account.accountID.lastIndexOf('0') + 1 );
+                                interestedAccountsID.push(custAccountID);
                                 try {
                                     const dbAccount = await prisma.account.upsert({
                                         where: {
-                                            accountID: account.accountID
+                                            accountID: custAccountID
                                         },
                                         update: {
-                                            accountID: account.accountID,
+                                            accountID: custAccountID,
                                             balance: parseFloat(account.balance),
                                             ownerID: userID
                                         },
                                         create: {
-                                            accountID: account.accountID,
+                                            accountID: custAccountID,
                                             balance: parseFloat(account.balance),
                                             ownerID: userID
                                         }
